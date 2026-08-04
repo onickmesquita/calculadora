@@ -35,7 +35,7 @@ Ela apenas:
 - envia informações para outra classe
 
 
-### + ***def `__init__`(self, service):***
+## ***def `__init__`(self, service):***
 
 Esse é o construtor da classe. Sempre que alguém fizer `gui = CalculadoraGUI(service)` o Python executará automaticamente o método `__init__`.
 
@@ -96,7 +96,7 @@ Ele criará:
 - botões
 - organização
 
-### + ***def _configurar_layout(self):***
+## ***def _configurar_layout(self):***
 
 Método privado (pela convenção do _). Responsável por desenhar toda a interface.
 
@@ -175,3 +175,110 @@ Cria um botão.
 
 3. **command** 
     command=self._executar_soma - Quando o usuário clicar no botão: `+` o Python executará automaticamente: `self._executar_soma()`
+
+
+### + ***btn_soma.grid(...)***
+
+Posiciona o botão.
+
+
+## ***def _executar_soma(self):***
+
+Método chamado quando o botão é pressionado.
+
+# Fluxo esperado:
+
+```
+
+Usuário
+
+↓
+
+Interface
+
+↓
+
+CalculadoraService
+
+↓
+
+Resultado
+
+↓
+
+Interface
+
+```
+
+A GUI apenas:
+
+- lê números
+- chama o serviço
+- mostra o resultado
+
+Quem realmente calcula é outra classe.
+
+
+### + ***pass***
+
+Significa:
+
+"Ainda não implementei esse método." É apenas um espaço reservado.
+
+## ***def run(self):***
+
+Cria um método chamado run(). Sua única responsabilidade é iniciar a interface.
+
+### + ***self.window.mainloop()***
+
+Essa é a linha mais importante do Tkinter. Ela inicia o loop de eventos da interface. Enquanto essa linha estiver executando, o programa fica "escutando" ações do usuário: 
+
+- clique em botão
+- digitação
+- fechar janela
+- redimensionar janela
+
+Sem ela, a janela abriria e fecharia imediatamente.
+
+# Resumo do fluxo do programa
+
+```
+Criar CalculadoraGUI
+          │
+          ▼
+     __init__()
+          │
+          ├── Guarda o service
+          │
+          ├── Cria a janela
+          │
+          ├── Define o título
+          │
+          └── Chama _configurar_layout()
+                       │
+                       ▼
+                 Cria display
+                 Cria botão "+"
+            Organiza tudo com grid()
+                       │
+                       ▼
+                     run()
+                       │
+                       ▼
+               window.mainloop()
+                       │
+                       ▼
+       Usuário interage com a calculadora
+                       │
+                       ▼
+                Clique no botão "+"
+                       │
+                       ▼
+               _executar_soma()
+                       │
+                       ▼
+          Chama `self.service.somar(...)`
+                       │
+                       ▼
+           Exibe o resultado no display
+```
