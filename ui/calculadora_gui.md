@@ -37,6 +37,8 @@ Ela apenas:
 
 ## ***def `__init__`(self, service):***
 
+![alt text](image-2.png)
+
 Esse é o construtor da classe. Sempre que alguém fizer `gui = CalculadoraGUI(service)` o Python executará automaticamente o método `__init__`.
 
 ### + ***O parâmetro service:***
@@ -97,6 +99,8 @@ Ele criará:
 - organização
 
 ## ***def _configurar_layout(self):***
+
+![alt text](image-1.png)
 
 Método privado (pela convenção do _). Responsável por desenhar toda a interface.
 
@@ -163,26 +167,184 @@ O componente se estica para todos os lados da célula.
     Espaçamento vertical.
 
 
-### + ***btn_soma = ttk.Button(...)***
+### +  ***botoes / for***
 
-Cria um botão.
+O objetivo desse código é criar todos os botões da calculadora automaticamente, sem precisar escrever um bloco de código para cada botão.
 
-1. **Primeiro argumento**
-    self.window - O botão pertence à janela.
+- ***botoes = []*** 
+    Aqui você cria uma variável chamada: botoes. Ela armazenará todas as informações necessárias para construir os botões. Mas observe que ela é uma lista, uma lista guarda vários elementos. Nesse caso ela guarda tuplas, cada item é uma tupla, o primeiro é ('7', 1, 0), Isso significa: texto = "7", linha = 1, coluna = 0, Cada posição possui um significado (Texto	 Linha	Coluna). Toda essa variável é uma matriz
 
-2. **text**
-    text="+" - Texto mostrado no botão. `+`
+```
+Aqui foi aplicado um princípio chamado DRY (Don't Repeat Yourself).
 
-3. **command** 
-    command=self._executar_soma - Quando o usuário clicar no botão: `+` o Python executará automaticamente: `self._executar_soma()`
+Ou seja:
+
+Não repita código desnecessariamente.
+```
+
+- ***O laço for*** 
+O Python faz o desempacotamento (unpacking). Quando escreve: (texto, linha, coluna) o Python pega automaticamente cada posição da tupla. Por exemplo: ('5',2,1), vira texto = "5", linha = 2, coluna = 1. Isso é chamado de desempacotamento de tuplas (tuple unpacking).
+
+- ***Dentro do for*** 
+Agora cada repetição cria um botão. btn = ttk.Button( Toda vez que o laço roda ele cria um botão novo. 
+```
+Na primeira volta:
+
+Botão 7
+
+Na segunda:
+
+Botão 8
+
+Na terceira:
+
+Botão 9
+```
+
+Até terminar todos.
+
+- **self.window**
+
+O botão pertence à janela principal.
 
 
-### + ***btn_soma.grid(...)***
+- **text=texto**
 
-Posiciona o botão.
+Aqui acontece algo interessante.
 
+```
+Na primeira volta:
+
+texto = "7"
+
+Então vira:
+
+text="7"
+
+Na segunda:
+
+texto = "8"
+
+Vira
+
+text="8"
+```
+
+Ou seja, o texto muda automaticamente.
+
+- **command=lambda t=texto: self._ao_clicar(t)**
+
+O parâmetro command define qual função será executada quando o botão for clicado. Se você escrevesse:
+
+command=self._ao_clicar
+
+a função seria chamada, mas ela não receberia nenhuma informação sobre qual botão foi pressionado.
+
+Você precisa passar o valor do botão ("7", "+", "=" etc.).
+
+```
+O que é uma função lambda?
+
+Uma lambda é uma função anônima (sem nome).
+
+Por exemplo:
+
+lambda x: x * 2
+
+é equivalente a:
+
+def dobrar(x):
+    return x * 2
+
+No seu código:
+
+lambda t=texto: self._ao_clicar(t)
+
+é praticamente igual a:
+
+def clicar():
+    self._ao_clicar(texto)
+
+Mas como você precisa criar uma função diferente para cada botão, a lambda torna isso muito mais prático.
+```
+
+- **Por que usar t=texto?**
+
+Esse detalhe evita um problema comum chamado late binding. Se você escrevesse apenas:
+
+`command=lambda: self._ao_clicar(texto)`
+
+todos os botões acabariam usando o último valor da variável texto após o término do laço. Como o último elemento da lista é:
+
+`('+', 4, 3)`
+
+todos os botões chamariam:
+
+`self._ao_clicar("+")`
+
+Ao escrever:
+
+`lambda t=texto: self._ao_clicar(t)`
+
+você "congela" o valor atual de texto no momento em que a lambda é criada.
+
+Então:
+
+```
+Botão 7 chama _ao_clicar("7")
+Botão 8 chama _ao_clicar("8")
+Botão / chama _ao_clicar("/")
+Botão = chama _ao_clicar("=")
+``` 
+
+Cada botão passa a informação correta.
+
+- **Depois vem o grid btn.grid(**
+
+Agora o botão é colocado na janela.
+
+## ***def_ aoclicar(self, valor):***
+
+![alt text](image.png)
+
+Ela funciona como um ponto central de entrada para todos os cliques dos botões.
+
+#### **obs** 
+```
+ O _ no início é uma convenção do Python que indica que esse método é de uso interno da classe. Ele pode ser chamado de fora, mas a intenção é que apenas a própria classe o utilize.
+ ```
+
+```
+self - Como esse método pertence à classe CalculadoraGUI, ele precisa receber uma referência para o próprio objeto. Quando você cria a interface:
+
+gui = CalculadoraGUI(service)
+
+e algum botão chama:
+
+self._ao_clicar("7")
+
+o Python faz internamente algo semelhante a:
+
+CalculadoraGUI._ao_clicar(gui, "7")
+
+Ou seja:
+
+self  -> gui
+
+valor -> "7"
+```
+
+```
+valor - Esse parâmetro recebe exatamente o texto do botão que foi pressionado. Graças a lambda, cada botão envia seu próprio texto.
+```
+
+```
+print(f"Botão {valor} clicado") - Essa linha serve apenas para testar se os botões estão funcionando corretamente.
+```
 
 ## ***def _executar_soma(self):***
+
+![alt text](image-3.png)
 
 Método chamado quando o botão é pressionado.
 
@@ -226,6 +388,8 @@ Significa:
 "Ainda não implementei esse método." É apenas um espaço reservado.
 
 ## ***def run(self):***
+
+![alt text](image-4.png)
 
 Cria um método chamado run(). Sua única responsabilidade é iniciar a interface.
 
@@ -282,3 +446,9 @@ Criar CalculadoraGUI
                        ▼
            Exibe o resultado no display
 ```
+
+# Por que essa abordagem?
+
+1. **Separação de Responsabilidades**: A classe CalculadoraGUI cuida apenas de desenhar e capturar cliques, enquanto o CalculadoraService resolve a matemática. 
+
+2. **Modularização**: Se você decidir trocar o Tkinter por outra biblioteca no futuro, a lógica matemática no arquivo de serviço não precisará de nenhuma alteração.
