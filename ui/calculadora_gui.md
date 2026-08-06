@@ -305,7 +305,7 @@ Agora o botão é colocado na janela.
 
 ## ***def_ aoclicar(self, valor):***
 
-![alt text](image.png)
+![alt text](image-5.png)
 
 Ela funciona como um ponto central de entrada para todos os cliques dos botões.
 
@@ -338,9 +338,160 @@ valor -> "7"
 valor - Esse parâmetro recebe exatamente o texto do botão que foi pressionado. Graças a lambda, cada botão envia seu próprio texto.
 ```
 
+### Primeiro bloco
+ - `if valor == 'C'` : Aqui começa uma estrutura de decisão. O Python pergunta:
+
+"O botão clicado foi o C?"
+
 ```
-print(f"Botão {valor} clicado") - Essa linha serve apenas para testar se os botões estão funcionando corretamente.
+O operador == significa comparação. Ele verifica se os dois valores são iguais.
 ```
+
+Exemplo: "7" == "7" - Resultado: True
+
+### self.display.delete(0, tk.END)
+
+Essa linha limpa completamente o display.
+
+- self.display é o componente Entry criado anteriormente.
+
+```
+self.display = ttk.Entry(...). Ele representa a caixa de texto da calculadora.
+```
+
+Imagine que ela contém: 123+45, o método `delete()` remove caracteres do Entry. Sua sintaxe é: `delete(início, fim)`
+
+- o parâmetro `0`, significa: comece a apagar o primeiro caractere
+
+- o parâmetro `ttk.END` ela significa: Vá até o final do texto. O END é uma constante do tkinter.
+
+Então `self.display.delete(0, tk.END)` significa: "Apague tudo do primeiro caractere até o último."
+
+
+### elif valor == '=':
+
+O Python só chega aqui se a primeira condição (valor == 'C') for falsa.
+
+Agora ele pergunta: " O botão foi "=" ? " Se sim... `print("Solicitando cálculo...")` No console aparecerá: Solicitando cálculo...
+
+**Essa é uma implementação temporária.**
+será aqui que a interface chamará a classe responsável pelos cálculos.
+
+### else:
+
+Esse else significa: "Se não era C e também não era =, então execute este bloco." Ou seja, ele trata todos os outros botões.
+
+### self.display.insert(tk.END, valor)
+
+Essa linha adiciona texto ao display.
+
+- O método insert() insere caracteres em um Entry.
+
+Sua sintaxe é: `insert(posição, texto)`
+
+- `tk.END` : Insira no final do texto.
+
+### Fluxo completo da função
+Imagine que o usuário clique no botão 9.
+
+O fluxo será:
+
+```
+Usuário clica "9"
+        │
+        ▼
+_ao_clicar("9")
+        │
+        ▼
+valor == "C" ?
+        │
+      False
+        │
+        ▼
+valor == "=" ?
+        │
+      False
+        │
+        ▼
+Entra no else
+        │
+        ▼
+display.insert(tk.END, "9")
+        │
+        ▼
+Display mostra:
+
+9
+```
+```
+Agora imagine que ele clique em C.
+
+Usuário clica "C"
+        │
+        ▼
+_ao_clicar("C")
+        │
+        ▼
+valor == "C" ?
+        │
+      True
+        │
+        ▼
+display.delete(0, tk.END)
+        │
+        ▼
+Display vazio
+```
+
+```
+Agora o botão =.
+
+Usuário digita:
+
+12+8
+        │
+        ▼
+Clica "="
+        │
+        ▼
+_ao_clicar("=")
+        │
+        ▼
+valor == "C" ?
+        │
+      False
+        │
+        ▼
+valor == "=" ?
+        │
+      True
+        │
+        ▼
+print("Solicitando cálculo...")
+
+```
+
+```
+                Usuário
+                    │
+                    ▼
+            Clica em um botão
+                    │
+                    ▼
+            _ao_clicar(valor)
+                    │
+         ┌──────────┼──────────┐
+         ▼          ▼          ▼
+      valor=C    valor==      Outros
+         │          │          │
+         ▼          ▼          ▼
+ Limpa display   Solicita   Adiciona o
+                 cálculo     caractere
+                    │
+                    ▼
+      (próxima etapa: chamar o service)
+```
+
 
 ## ***def _executar_soma(self):***
 

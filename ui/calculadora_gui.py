@@ -32,8 +32,39 @@ class CalculadoraGUI:
         
         
     def _ao_clicar(self, valor):
-        # Método centralizador para processar a entrada
-        print(f"Botão {valor} clicado")
+        # Se clicar em 'C', limpa o display.
+        if valor == 'C':
+            self.display.delete(0, tk.END)
+        
+        # Se clicar em '=', deixaremos pronto para a integração (Etapa 5)
+        elif valor == '=':
+            print("Solicitando cálculo...")
+            # Aqui chamaremos o service no próximo passo
+            
+        # Para números e operadores, apenas adicionamos ao final do texto atual
+        else:
+            self.display.insert(tk.END, valor)
+    
+    
+    def _executar_calculo(self):
+        try:
+            # Obtém a expressão do display
+            expressao = self.display.get()
+            
+            # Para fins didáticos nesta etapa, usaremos eval() para processar a string,
+            # mas o ideal é que seu service contenha as regras de parsing futuramente.
+            resultado = eval(expressao)
+            
+            self.display.delete(0, tk.END)
+            self.display.insert(tk.END, str(resultado))
+            
+            
+        except ZeroDivisionError:
+            self.display.delete(0, tk.END)
+            self.display.insert(tk.END, "Erro: Divisão por 0")
+        except Exception:
+            self.display.delete(0, tk.END)
+            self.display.insert(tk.END, "Entrada Inválida")
         
         
     def _executar_soma(self):
