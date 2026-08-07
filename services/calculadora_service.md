@@ -1,3 +1,11 @@
+# Importância da estrutura da class CalculadoraService
+
+1. **Isolamento**: A lógica de negócio está protegida de mudanças na interface visual.
+
+2. **Facilidade de Teste**: Podemos testar essas funções matematicamente sem precisar abrir a janela do Tkinter.
+
+3. **Tratamento de Erros**: Foi incluida a validação para divisão por zero, sugerido na documentação do Python.
+
 # Fluxo das funções
 
 ## Somar
@@ -100,6 +108,26 @@ Fim   return resultado
 
 ```
 
+## Memória guardar
+```
+              memoria_guardar(valor)
+                         │
+                         ▼
+               Recebe um valor float
+                         │
+                         ▼
+              Acessa self.memoria
+                         │
+                         ▼
+              self.memoria += valor
+                         │
+                         ▼
+       self.memoria = self.memoria + valor
+                         │
+                         ▼
+                Memória atualizada
+```
+
 NOTA: 
 
 **raise** = Tratamento de erro específico para divisão por zero.
@@ -111,12 +139,5 @@ Nesse caso, ela lança um erro do tipo "ZeroDivisionError", com a mensagem:
 
 >"Não é possível dividir por zero."
 
+**Docstring** = Ela documenta o que a função faz.
 
-
-## Importância da estrutura da class CalculadoraService
-
-1. **Isolamento**: A lógica de negócio está protegida de mudanças na interface visual.
-
-2. **Facilidade de Teste**: Podemos testar essas funções matematicamente sem precisar abrir a janela do Tkinter.
-
-3. **Tratamento de Erros**: Foi incluida a validação para divisão por zero, sugerido na documentação do Python.

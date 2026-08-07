@@ -4,6 +4,9 @@ class CalculadoraService:
     Classe especializada em operações matemáticas.
     sua única responsabilidade é realizar cálculos.
     """
+    def __init__(self):
+        self.memoria = 0.0  # Estado inicial da memória
+
 
     def somar(self, num1: float, num2: float) -> float:
         return num1 + num2
@@ -23,3 +26,11 @@ class CalculadoraService:
         return num1 / num2
     
     
+    def memoria_guardar(self, valor: float):
+        """M+: Adiciona o valor atual à memória."""
+        self.memoria += valor
+        
+        
+    def memoria_subtrair(self, valor: float):
+        """M-: Subtrai o valor atual da memória."""
+        self.memoria -= valor     
