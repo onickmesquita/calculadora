@@ -37,7 +37,7 @@ Ela apenas:
 
 ## ***def `__init__`(self, service):***
 
-![alt text](image-2.png)
+![alt text](image/image-2.png)
 
 Esse é o construtor da classe. Sempre que alguém fizer `gui = CalculadoraGUI(service)` o Python executará automaticamente o método `__init__`.
 
@@ -100,7 +100,7 @@ Ele criará:
 
 ## ***def _configurar_layout(self):***
 
-![alt text](image-1.png)
+![alt text](image/image-1.png)
 
 Método privado (pela convenção do _). Responsável por desenhar toda a interface.
 
@@ -305,7 +305,7 @@ Agora o botão é colocado na janela.
 
 ## ***def_ aoclicar(self, valor):***
 
-![alt text](image-5.png)
+![alt text](image/image-5.png)
 
 Ela funciona como um ponto central de entrada para todos os cliques dos botões.
 
@@ -492,10 +492,31 @@ print("Solicitando cálculo...")
       (próxima etapa: chamar o service)
 ```
 
+## ***def _executar_calculo(self):***
+
+![alt text](image/image-6.png)
+
+Utilizado para capturar erros, como a divisão por zero.
+
+
+```python
+self.display.delete(0, tk.END)
+            self.display.insert(tk.END, "Erro: Divisão por 0")
+```
+- A primeira linha do código deleta do primeiro ao ultomo elemento. 
+- A segunda insere no final uma mensagem de erro exibindo o porque do erro.
+
+**Em resumo**
+
+1. ***Conexão lógica***: O botão = agora aciona a função _executar_calculo, cumprindo o objetivo de integração.
+
+2. ***Tratamento de Erros***: Foi implementado a captura de exceções para evitar que a aplicação trave em operações inválidas.
+
+3. ***Feedback Visual***: O display é limpo e atualizado com o resultado ou com uma mensagem de erro amigável.
 
 ## ***def _executar_soma(self):***
 
-![alt text](image-3.png)
+![alt text](image/image-3.png)
 
 Método chamado quando o botão é pressionado.
 
