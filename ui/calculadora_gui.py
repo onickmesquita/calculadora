@@ -21,7 +21,7 @@ class CalculadoraGUI:
             ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
             ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
-            ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3),
+            ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3), ('M+', 5, 0), ('M-', 5, 1)
         ] 
         
         # Criação dinâmica para manter o código limpo e evitarmos repetições
@@ -40,10 +40,25 @@ class CalculadoraGUI:
         elif valor == '=':
             print("Solicitando cálculo...")
             # Aqui chamaremos o service no próximo passo
-            
+        
+        elif valor in ('M+', 'M-'):
+            self._processar_memoria(valor)
+        
         # Para números e operadores, apenas adicionamos ao final do texto atual
         else:
             self.display.insert(tk.END, valor)
+    
+    
+    def _processar_memoria(self, acao):
+        try:
+            valor_atual = float(self.display.get())
+            if acao == 'M+':
+                self.service.memoria_guardar(valor_atual)
+            else:
+                self.service.memoria_subtrair(valor_atual)
+            self.display.delete(0, tk.END) # Limpa após guardar
+        except ValueError:
+            self.display.insert(tk.END, "Erro")
     
     
     def _executar_calculo(self):

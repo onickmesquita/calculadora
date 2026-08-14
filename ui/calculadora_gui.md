@@ -305,7 +305,7 @@ Agora o botão é colocado na janela.
 
 ## ***def_ aoclicar(self, valor):***
 
-![alt text](image/image-5.png)
+![alt text](image/image-7.png))
 
 Ela funciona como um ponto central de entrada para todos os cliques dos botões.
 
@@ -377,6 +377,41 @@ Agora ele pergunta: " O botão foi "=" ? " Se sim... `print("Solicitando cálcul
 **Essa é uma implementação temporária.**
 será aqui que a interface chamará a classe responsável pelos cálculos.
 
+
+### elif valor in ('M+', 'M-'):
+
+Assim, o fluxo fica: 
+
+```
+Usuário clica em M+
+        ↓
+_ao_clicar('M+')
+        ↓
+elif valor in ('M+', 'M-')
+        ↓
+_processar_memoria('M+')
+        ↓
+verifica se é M+
+        ↓
+adiciona valor à memória
+```
+
+```
+Usuário clica em M-
+        ↓
+_ao_clicar('M-')
+        ↓
+elif valor in ('M+', 'M-')
+        ↓
+_processar_memoria('M-')
+        ↓
+verifica se é M-
+        ↓
+subtrai valor da memória
+```
+
+**Significa dizer** : "Se o botão clicado for M+ ou M-, faça o processamento de memória."
+
 ### else:
 
 Esse else significa: "Se não era C e também não era =, então execute este bloco." Ou seja, ele trata todos os outros botões.
@@ -413,13 +448,18 @@ valor == "=" ?
       False
         │
         ▼
-Entra no else
+valor == "M+ / M-" ?
+        │
+      False
+        │
+        ▼
+   Entra no else
         │
         ▼
 display.insert(tk.END, "9")
         │
         ▼
-Display mostra:
+  Display mostra:
 
 9
 ```
@@ -491,6 +531,44 @@ print("Solicitando cálculo...")
                     ▼
       (próxima etapa: chamar o service)
 ```
+
+## ***def _processar_memoria(self, acao):***
+
+![alt text](image/image-8.png)
+
+### valor_atual = float(self.display.get())
+
+Um exemplo. Imagine que o display esteja assim:
+```
+┌─────────────┐
+│    150      │
+└─────────────┘
+```
+Então self.display.get() retorna "150". Observe que isso é uma string. Por isso usamos `float(...)` para transformar "150" em 150.0
+Então `valor_atual = float(self.display.get())`
+significa "Pegue o que está no display e transforme em um número decimal."
+
+**O fluxo seria dessa forma**:
+Por exemplo, se o display contém 150 e o usuário aperta M+, o fluxo será:
+```
+display
+  ↓
+"150"
+  ↓
+float()
+  ↓
+150.0
+  ↓
+memoria_guardar(150.0)
+```
+
+### except
+Imagine que o display contenha abc. Quando o Python tentar fazer `float("abc")` ele não conseguirá converter para número. Isso gera um `ValueError` E coloca `Erro`
+
+***Estado Persistente***: O CalculadoraService agora mantém um valor em self.memoria, simulando a persistência temporária de dados.
+
+***Interação entre Camadas***: A interface captura o número, converte para float e delega a alteração do estado para o serviço.
+
 
 ## ***def _executar_calculo(self):***
 
