@@ -339,6 +339,22 @@ valor - Esse parâmetro recebe exatamente o texto do botão que foi pressionado.
 ```
 
 ### Primeiro bloco
+![alt text](image/image-9.png)
+
+- Primeira linha: `operadores = ('+', '-', '*', '/')`
+```
+Isso cria uma tupla (tuple) chamada operadores, contendo os quatro símbolos de operações matemáticas básicas: soma, subtração, multiplicação e divisão.
+
+Os parênteses () indicam que é uma tupla, não uma lista [].
+Diferença prática: tuplas são imutáveis — depois de criadas, você não pode adicionar, remover ou alterar os itens. Isso costuma ser usado quando o conjunto de valores é fixo e não deve mudar durante a execução do programa (faz sentido aqui, já que os operadores de uma calculadora não vão mudar).
+```
+
+- segunda linha: `texto_atual = self.display.get()`
+```
+texto_atual guarda esse valor como uma string, para que o código possa usá-lo em seguida (por exemplo, para verificar o último caractere digitado, montar uma expressão, etc.).
+```
+
+### Segundo bloco
  - `if valor == 'C'` : Aqui começa uma estrutura de decisão. O Python pergunta:
 
 "O botão clicado foi o C?"
@@ -411,6 +427,27 @@ subtrai valor da memória
 ```
 
 **Significa dizer** : "Se o botão clicado for M+ ou M-, faça o processamento de memória."
+
+### elif valor in operadores and texto_atual.endswith(operadores):
+
+Essa condição só é True quando duas coisas acontecem ao mesmo tempo:
+
+valor in operadores → o botão que acabou de ser clicado é um operador (+, -, * ou /).
+texto_atual.endswith(operadores) → o texto que já está no display termina com um operador.
+
+Repare que endswith() aqui recebe a tupla inteira operadores, não um único caractere. Isso é um recurso do Python: quando você passa uma tupla de strings para .endswith(), ele verifica se o texto termina com qualquer uma das opções da tupla. É equivalente a escrever:
+
+>texto_atual.endswith('+') or texto_atual.endswith('-') or texto_atual.endswith('*') or texto_atual.endswith('/')
+
+`self.display.delete(len(texto_atual)-1, tk.END) self.display.insert(tk.END, valor)`
+
+```
+Aqui é onde a substituição acontece:
+
+self.display.delete(len(texto_atual)-1, tk.END) apaga do display o último caractere até o final. Como texto_atual termina em operador, isso remove justamente o operador antigo (a posição len(texto_atual)-1 é o índice do último caractere da string).
+
+self.display.insert(tk.END, valor) insere o novo operador no final, no lugar do que foi apagado.
+```
 
 ### else:
 

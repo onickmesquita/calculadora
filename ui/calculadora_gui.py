@@ -32,6 +32,9 @@ class CalculadoraGUI:
         
         
     def _ao_clicar(self, valor):
+        operadores = ('+', '-', '*', '/')
+        texto_atual = self.display.get()
+        
         # Se clicar em 'C', limpa o display.
         if valor == 'C':
             self.display.delete(0, tk.END)
@@ -44,6 +47,12 @@ class CalculadoraGUI:
         elif valor in ('M+', 'M-'):
             self._processar_memoria(valor)
         
+        # Etapa 8: Bloqueia clique duplo em operadores
+        elif valor in operadores and texto_atual.endswith(operadores):
+            # Substitui o operador anterior pelo novo ou apenas ignora
+            self.display.delete(len(texto_atual)-1, tk.END)
+            self.display.insert(tk.END, valor)
+            
         # Para números e operadores, apenas adicionamos ao final do texto atual
         else:
             self.display.insert(tk.END, valor)
@@ -65,6 +74,8 @@ class CalculadoraGUI:
         try:
             # Obtém a expressão do display
             expressao = self.display.get()
+            if not expressao:
+                return
             
             # Para fins didáticos nesta etapa, usaremos eval() para processar a string,
             # mas o ideal é que seu service contenha as regras de parsing futuramente.
@@ -77,6 +88,10 @@ class CalculadoraGUI:
         except ZeroDivisionError:
             self.display.delete(0, tk.END)
             self.display.insert(tk.END, "Erro: Divisão por 0")
+        except SyntaxError:
+             # Captura expressões incompletas ou malformadas
+            self.display.delete(0, tk.END)
+            self.display.insert(tk.END, "Erro: Operação Inválida")
         except Exception:
             self.display.delete(0, tk.END)
             self.display.insert(tk.END, "Entrada Inválida")
