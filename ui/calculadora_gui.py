@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+#from tkinter import ttk
 from ui.styles import aplicar_estilos
 
 class CalculadoraGUI:
@@ -19,7 +19,7 @@ class CalculadoraGUI:
         
     def _configurar_layout(self):
         # Display de entrada de dados
-        self.display = ttk.Entry(
+        self.display = tk.Entry(
             self.window, 
             font=self.estilos["fonte_display"], 
             justify='right', 
@@ -43,7 +43,7 @@ class CalculadoraGUI:
             # Lógica de cores baseada no dicionário de estilos
             cor = self.estilos["cor_operador"] if texto in ('/', '*', '-', '+', '=') else self.estilos["cor_numero"]
             # Usamos ttk.Button para um visual moderno
-            btn = ttk.Button(
+            btn = tk.Button(
                 self.window, 
                 text=texto,
                 font=self.estilos["fonte_botao"],
