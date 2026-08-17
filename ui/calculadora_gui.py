@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from ui.styles import aplicar_estilos
 
 class CalculadoraGUI:
     
@@ -8,12 +9,25 @@ class CalculadoraGUI:
         self.service = service  # Injeção da lógica de cálculos
         self.window = tk.Tk()
         self.window.title("Calculadora Python")
+        
+        # Carrega os estilos centralizados
+        self.estilos = aplicar_estilos()
+        self.window.configure(bg=self.estilos["bg_janela"])
+        
         self._configurar_layout()
         
         
     def _configurar_layout(self):
         # Display de entrada de dados
-        self.display = ttk.Entry(self.window, font=("Arial", 24), justify='right')
+        self.display = ttk.Entry(
+            self.window, 
+            font=self.estilos["fonte_display"], 
+            justify='right', 
+            bg=self.estilos["bg_display"], 
+            fg=self.estilos["fg_display"], 
+            borderwidth=0
+            )
+        
         self.display.grid(row=0, column=0, columnspan=4, sticky="nsew", padx=5, pady=5)
         
         # Matriz de botões: (texto, linha, coluna)
@@ -26,8 +40,16 @@ class CalculadoraGUI:
         
         # Criação dinâmica para manter o código limpo e evitarmos repetições
         for (texto, linha, coluna) in botoes:
+            # Lógica de cores baseada no dicionário de estilos
+            cor = self.estilos["cor_operador"] if texto in ('/', '*', '-', '+', '=') else self.estilos["cor_numero"]
             # Usamos ttk.Button para um visual moderno
-            btn = ttk.Button(self.window, text=texto, command=lambda t=texto: self._ao_clicar(t))
+            btn = ttk.Button(
+                self.window, 
+                text=texto,
+                font=self.estilos["fonte_botao"],
+                bg=cor, 
+                command=lambda t=texto: self._ao_clicar(t)
+                )
             btn.grid(row=linha, column=coluna, sticky="nsew", padx=2, pady=2)
         
         
