@@ -65,8 +65,8 @@ class CalculadoraGUI:
             self.service.limpar_tudo()
         # Se clicar em '=', deixaremos pronto para a integração (Etapa 5)
         elif valor == '=':
-            print("Solicitando cálculo...")
-            # Aqui chamaremos o service no próximo passo
+            # Garanta que esta linha está chamando o método de cálculo
+            self._executar_calculo()
         
         elif valor in ('M+', 'M-'):
             self._processar_memoria(valor)
