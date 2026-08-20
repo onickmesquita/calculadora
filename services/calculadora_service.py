@@ -26,6 +26,11 @@ class CalculadoraService:
         return num1 / num2
     
     
+    def limpar_tudo(self):
+        """Reseta o estado interno da calculadora."""
+        self.memoria = 0.0
+    
+    
     def memoria_guardar(self, valor: float):
         """M+: Adiciona o valor atual à memória."""
         self.memoria += valor

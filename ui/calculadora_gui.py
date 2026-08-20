@@ -35,7 +35,7 @@ class CalculadoraGUI:
             ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
             ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
-            ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3), ('M+', 5, 0), ('M-', 5, 1)
+            ('C', 4, 0), ('0', 4, 1), ('=', 4, 2), ('+', 4, 3), ('M+', 5, 0), ('M-', 5, 1)
         ] 
         
         # Criação dinâmica para manter o código limpo e evitarmos repetições
@@ -59,8 +59,10 @@ class CalculadoraGUI:
         
         # Se clicar em 'C', limpa o display.
         if valor == 'C':
+            # Limpa o visual (Tkinter)
             self.display.delete(0, tk.END)
-        
+            # Limpa a lógica de negócio (Service)
+            self.service.limpar_tudo()
         # Se clicar em '=', deixaremos pronto para a integração (Etapa 5)
         elif valor == '=':
             print("Solicitando cálculo...")
